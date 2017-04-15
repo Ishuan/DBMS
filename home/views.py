@@ -60,12 +60,10 @@ def fac(request):
     statement = "select * from departments where dname='Bioinformatics and Genomics'"
     cur.execute(statement)
     details = cur.fetchone()
-    print(request.GET['OfficeRooms'])
     search_room = find_fac(request.GET['OfficeRooms'], details[0])
-    print(search_room[0])
     rooms = get_rooms(details[0])
     year = get_year(details[0])
-    return render(request, "bio.html", {"details": details, "office": rooms, "year": year})
+    return render(request, "bio.html", {"details": details, "office": rooms, "year": year, "fac_room":search_room })
 
 
 ######################################
@@ -93,7 +91,8 @@ def get_year(dname):
 def find_fac(room, dname):
     conn = MySQLdb.connect(user="root", password="root123", database="project_DBS", host='localhost')
     cur = conn.cursor()
-    statement = "select f.fname from faculties f, work_in w where f.office_room=\'" + room + "\' and w.dname=\'" + dname + "\' and f.fname=w.fname"
+    statement = "select f.fname from faculties f, work_in w where f.office_room=\'" + room + "\' and w.dname=\'" + \
+                dname + "\' and f.fname=w.fname"
     cur.execute(statement)
     rs = cur.fetchone()
     return rs
