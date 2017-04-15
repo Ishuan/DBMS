@@ -27,7 +27,9 @@ def cs(request):
     statement = "select * from departments where dname='computer science'"
     cur.execute(statement)
     details = cur.fetchone()
-    return render(request, "cs.html", {"details": details})
+    rooms = get_rooms(details[0])
+    year = get_year(details[0])
+    return render(request, "cs.html", {"details": details, "office": rooms, "year": year})
 
 
 def sis(request):
@@ -36,7 +38,9 @@ def sis(request):
     statement = "select * from departments where dname='Software and Information System'"
     cur.execute(statement)
     details = cur.fetchone()
-    return render(request, "sis.html", {"details": details})
+    rooms = get_rooms(details[0])
+    year = get_year(details[0])
+    return render(request, "sis.html", {"details": details, "office": rooms, "year": year})
 
 
 def bio(request):
@@ -46,7 +50,8 @@ def bio(request):
     cur.execute(statement)
     details = cur.fetchone()
     rooms = get_rooms(details[0])
-    return render(request, "bio.html", {"details": details, "office":rooms})
+    year = get_year(details[0])
+    return render(request, "bio.html", {"details": details, "office": rooms, "year": year})
 
 
 ######################################
@@ -54,7 +59,18 @@ def bio(request):
 def get_rooms(dname):
     conn = MySQLdb.connect(user="root", password="root123", database="project_DBS", host='localhost')
     cur = conn.cursor()
-    statement = "select f.office_room from faculties f , work_in w where f.fname = w.fname and w.dname=\'" + dname + "\'"
+    statement = "select DISTINCT f.office_room from faculties f , work_in w where f.fname = w.fname and w.dname=\'" + \
+                dname + "\' order by f.office_room asc"
+    cur.execute(statement)
+    rs = cur.fetchall()
+    return rs
+
+
+def get_year(dname):
+    conn = MySQLdb.connect(user="root", password="root123", database="project_DBS", host='localhost')
+    cur = conn.cursor()
+    statement = "select DISTINCT w.since from faculties f, work_in w  where f.fname=w.fname and w.dname=\'" + dname + \
+                "\' order by w.since asc"
     cur.execute(statement)
     rs = cur.fetchall()
     return rs
