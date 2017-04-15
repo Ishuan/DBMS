@@ -49,15 +49,16 @@
 
                 <ul>
                     <li><h5>Find the faculty by the office room:</h5></li>
-
-                    <select>
-                        {% for all in office %}
-                            <option value="{{ all.0 }}">{{ all.0 }}</option>
-                        {% endfor %}
-                    </select>
-
-                    <button class="btn btn-danger" type="submit" data-toggle="modal" data-target="#myModal">Submit
-                    </button>
+                    <form action="fac" method="GET">
+                        <select name="OfficeRooms" id="room_search">
+                            {% for all in office %}
+                                <option value="{{ all.0 }}">{{ all.0 }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                            Submit
+                        </button>
+                    </form>
 
                     <div id="myModal" class="modal fade" role="dialog">
                         <div class="modal-dialog">

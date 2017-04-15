@@ -63,7 +63,8 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <button type="button" class="close" data-dismiss="modal"><span
+                                            class="glyphicon glyphicon-remove"></span></button>
                                     <h4 class="modal-title">Faculty:</h4>
                                 </div>
                                 <div class="modal-body">
@@ -86,14 +87,15 @@
                         {% endfor %}
                     </select>
 
-                    <button class="btn btn-danger" type="submit" data-toggle="modal" data-target="#myModal1">Submit
+                    <button class="btn btn-danger" type="submit" value="{{ all.0 }}" data-toggle="modal" data-target="#myModal1">Submit
                     </button>
 
                     <div id="myModal1" class="modal fade" role="dialog">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <button type="button" class="close" data-dismiss="modal"><span
+                                            class="glyphicon glyphicon-remove"></span></button>
                                     <h4 class="modal-title">Faculty:</h4>
                                 </div>
                                 <div class="modal-body">
