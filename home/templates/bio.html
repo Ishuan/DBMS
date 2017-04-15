@@ -26,4 +26,49 @@
     <strong>Number of faculties :</strong> {{ details.1 }}
     <br>
     <Strong>Main Office: </Strong>{{ details.2 }}
+    <br>
+    <br>
+    <br>
 </div>
+
+<div class="col-sm-2"></div>
+
+<div class="col-sm-8">
+
+    <div class="panel-group" id="accordion">
+
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#Faculty">
+                        Faculties
+                    </a>
+                </h4>
+            </div>
+            <div id="Faculty" class="panel-collapse collapse">
+               <h5>Find the faculty by the office room:</h5>
+                <select>
+                    {% for all in office %}
+                        <option value="{{ all.0 }}">{{ all.0 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#Courses">
+                        Courses
+                    </a>
+                </h4>
+            </div>
+            <div id="Courses" class="panel-collapse collapse">
+                <h1>Courses Information</h1>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="col-sm-2"></div>

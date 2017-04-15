@@ -45,4 +45,16 @@ def bio(request):
     statement = "select * from departments where dname='Bioinformatics and Genomics'"
     cur.execute(statement)
     details = cur.fetchone()
-    return render(request, "bio.html", {"details": details})
+    rooms = get_rooms(details[0])
+    return render(request, "bio.html", {"details": details, "office":rooms})
+
+
+######################################
+
+def get_rooms(dname):
+    conn = MySQLdb.connect(user="root", password="root123", database="project_DBS", host='localhost')
+    cur = conn.cursor()
+    statement = "select f.office_room from faculties f , work_in w where f.fname = w.fname and w.dname=\'" + dname + "\'"
+    cur.execute(statement)
+    rs = cur.fetchall()
+    return rs
