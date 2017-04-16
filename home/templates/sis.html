@@ -45,68 +45,68 @@
                     </a>
                 </h4>
             </div>
-            <div id="Faculty" class="panel-collapse collapse">
+            <div id="Faculty" class="panel-collapse">
 
                 <ul>
                     <li><h5>Find the faculty by the office room:</h5></li>
-
-                    <select>
-                        {% for all in office %}
-                            <option value="{{ all.0 }}">{{ all.0 }}</option>
+                    <form action="fac_sis" method="GET">
+                        <select name="OfficeRooms">
+                            {% for all in office %}
+                                <option value="{{ all.0 }}">{{ all.0 }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-danger btn-sm">Submit
+                        </button>
+                    </form>
+                    {% if fac_room != empty %}
+                        {% for all in fac_room %}
+                            <h4 class="text-success"><strong>{{ all.0 }}</strong></h4>
                         {% endfor %}
-                    </select>
-
-                    <button class="btn btn-danger" type="submit" data-toggle="modal" data-target="#myModal">Submit
-                    </button>
-
-                    <div id="myModal" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"><span
-                                            class="glyphicon glyphicon-remove"></span></button>
-                                    <h4 class="modal-title">Faculty:</h4>
-                                </div>
-                                <div class="modal-body">
-                                    {% for all in office %}{{ all.0 }}<br>{% endfor %}
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endif %}
                 </ul>
 
                 <ul>
                     <li><h5>Find the faculty by the year of joining:</h5></li>
-
-                    <select>
-                        {% for all in year %}
-                            <option value="{{ all.0 }}">{{ all.0 }}</option>
+                    <form action="fyear_sis" method="GET">
+                        <input type="hidden" name="fac_room" value="fac_room.0"/>
+                        <select name="fac_year">
+                            {% for all in year %}
+                                <option value="{{ all.0 }}">{{ all.0 }}</option>
+                            {% endfor %}
+                        </select>
+                        <button class="btn btn-danger btn-sm" type="submit">Submit
+                        </button>
+                    </form>
+                    {% if fac_by_year != empty %}
+                        {% for all in fac_by_year %}
+                            <h4 class="text-success"><strong>{{ all.0 }}</strong></h4>
                         {% endfor %}
-                    </select>
+                    {% endif %}
+                </ul>
 
-                    <button class="btn btn-danger" type="submit" value="{{ all.0 }}" data-toggle="modal" data-target="#myModal1">Submit
-                    </button>
-
-                    <div id="myModal1" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"><span
-                                            class="glyphicon glyphicon-remove"></span></button>
-                                    <h4 class="modal-title">Faculty:</h4>
-                                </div>
-                                <div class="modal-body">
-                                    {% for all in year %}{{ all.0 }}<br>{% endfor %}
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <ul>
+                    <li><h5>Find the professor by the Courses:</h5></li>
+                    <form action="course_sis" method="GET">
+                        <input type="hidden" name="fac_room" value="fac_room.0"/>
+                        <input type="hidden" name="fac_year" value="fac_year.0"/>
+                        <select name="fac_course">
+                            {% for all in  %}
+                                <option value="{{ all.0 }}">{{ all.0 }}</option>
+                            {% endfor %}
+                        </select>
+                    <select name="semester">
+                            {% for all in  %}
+                                <option value="{{ all.0 }}">{{ all.0 }}</option>
+                            {% endfor %}
+                        </select>
+                        <button class="btn btn-danger btn-sm" type="submit">Submit
+                        </button>
+                    </form>
+                    {% if  != empty %}
+                        {% for all in  %}
+                            <h4 class="text-success"><strong>{{ all.0 }}</strong></h4>
+                        {% endfor %}
+                    {% endif %}
                 </ul>
 
             </div>
@@ -120,8 +120,10 @@
                     </a>
                 </h4>
             </div>
-            <div id="Courses" class="panel-collapse collapse">
-                <h1>Courses Information</h1>
+            <div id="Courses" class="panel-collapse">
+                <ul>
+                    <li><h5>Find the professor </h5></li>
+                </ul>
             </div>
         </div>
 

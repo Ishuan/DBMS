@@ -49,8 +49,8 @@
 
                 <ul>
                     <li><h5>Find the faculty by the office room:</h5></li>
-                    <form action="fac" method="GET">
-                        <select name="OfficeRooms" id="room_search">
+                    <form action="fac_bio" method="GET">
+                        <select name="OfficeRooms">
                             {% for all in office %}
                                 <option value="{{ all.0 }}">{{ all.0 }}</option>
                             {% endfor %}
@@ -58,22 +58,31 @@
                         <button type="submit" class="btn btn-danger btn-sm">Submit
                         </button>
                     </form>
-                    <h4 class="text-success"><strong>{{ fac_room.0 }}</strong></h4>
+                    {% if fac_room != empty %}
+                        {% for all in fac_room %}
+                            <h4 class="text-success"><strong>{{ all.0 }}</strong></h4>
+                        {% endfor %}
+                    {% endif %}
                 </ul>
 
                 <ul>
                     <li><h5>Find the faculty by the year of joining:</h5></li>
-
-                    <select>
-                        {% for all in year %}
-                            <option value="{{ all.0 }}">{{ all.0 }}</option>
+                    <form action="fyear_bio" method="GET">
+                        <input type="hidden" name="fac_room" value="fac_room.0"/>
+                        <select name="fac_year">
+                            {% for all in year %}
+                                <option value="{{ all.0 }}">{{ all.0 }}</option>
+                            {% endfor %}
+                        </select>
+                        <button class="btn btn-danger btn-sm" type="submit">Submit
+                        </button>
+                    </form>
+                    {% if fac_by_year != empty %}
+                        {% for all in fac_by_year %}
+                            <h4 class="text-success"><strong>{{ all.0 }}</strong></h4>
                         {% endfor %}
-                    </select>
-
-                    <button class="btn btn-danger btn-sm" type="submit">Submit
-                    </button>
+                    {% endif %}
                 </ul>
-
             </div>
         </div>
 
