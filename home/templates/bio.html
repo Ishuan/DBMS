@@ -49,7 +49,7 @@
 
                 <ul>
                     <li><h5>Find the faculty by the office room:</h5></li>
-                    <form action="fac_bio" method="GET">
+                    <form action="fac_sis" method="GET">
                         <select name="OfficeRooms">
                             {% for all in office %}
                                 <option value="{{ all.0 }}">{{ all.0 }}</option>
@@ -67,7 +67,7 @@
 
                 <ul>
                     <li><h5>Find the faculty by the year of joining:</h5></li>
-                    <form action="fyear_bio" method="GET">
+                    <form action="fyear_sis" method="GET">
                         <input type="hidden" name="fac_room" value="fac_room.0"/>
                         <select name="fac_year">
                             {% for all in year %}
@@ -83,6 +83,28 @@
                         {% endfor %}
                     {% endif %}
                 </ul>
+
+                <ul>
+                    <li><h5>Find the professor by the Courses:</h5></li>
+                    <form action="course_sis" method="GET">
+                        <input type="hidden" name="fac_room" value="fac_room.0"/>
+                        <input type="hidden" name="fac_year" value="fac_year.0"/>
+                        <select name="fac_course">
+                            {% for all in course %}
+                                <option value="{{ all.0 }}">{{ all.0 }}</option>
+                            {% endfor %}
+                        </select>
+                        <select name="semesters">
+                            {% for all in semester %}
+                                <option value="{{ all.0 }}">{{ all.0 }}</option>
+                            {% endfor %}
+                        </select>
+                        <button class="btn btn-danger btn-sm" type="submit">Submit
+                        </button>
+                    </form>
+                    ########
+                </ul>
+
             </div>
         </div>
 
@@ -95,7 +117,9 @@
                 </h4>
             </div>
             <div id="Courses" class="panel-collapse">
-                <h1>Courses Information</h1>
+                <ul>
+                    <li><h5>Find the professor </h5></li>
+                </ul>
             </div>
         </div>
 

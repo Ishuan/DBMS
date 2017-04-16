@@ -29,7 +29,9 @@ def cs(request):
     details = cur.fetchone()
     rooms = get_rooms(details[0])
     year = get_year(details[0])
-    return render(request, "cs.html", {"details": details, "office": rooms, "year": year})
+    course, semester = get_course(details[0])
+    return render(request, "cs.html",
+                  {"details": details, "office": rooms, "year": year, "semester": semester, "course": course})
 
 
 def sis(request):
@@ -40,7 +42,9 @@ def sis(request):
     details = cur.fetchone()
     rooms = get_rooms(details[0])
     year = get_year(details[0])
-    return render(request, "sis.html", {"details": details, "office": rooms, "year": year})
+    course, semester = get_course(details[0])
+    return render(request, "sis.html",
+                  {"details": details, "office": rooms, "year": year, "semester": semester, "course": course})
 
 
 def bio(request):
@@ -51,7 +55,9 @@ def bio(request):
     details = cur.fetchone()
     rooms = get_rooms(details[0])
     year = get_year(details[0])
-    return render(request, "bio.html", {"details": details, "office": rooms, "year": year})
+    course, semester = get_course(details[0])
+    return render(request, "bio.html",
+                  {"details": details, "office": rooms, "year": year, "semester": semester, "course": course})
 
 
 #####################
@@ -96,7 +102,10 @@ def fac_sis(request):
     search_room = find_fac(request.GET['OfficeRooms'], details[0])
     rooms = get_rooms(details[0])
     year = get_year(details[0])
-    return render(request, "sis.html", {"details": details, "office": rooms, "year": year, "fac_room": search_room})
+    course, semester = get_course(details[0])
+    return render(request, "sis.html",
+                  {"details": details, "office": rooms, "year": year, "fac_room": search_room, "semester": semester,
+                   "course": course})
 
 
 def fyear_sis(request):
@@ -109,7 +118,10 @@ def fyear_sis(request):
     fac_by_year = find_fac_year(request.GET['fac_year'], details[0])
     rooms = get_rooms(details[0])
     year = get_year(details[0])
-    return render(request, "sis.html", {"details": details, "office": rooms, "year": year, "fac_by_year": fac_by_year})
+    course, semester = get_course(details[0])
+    return render(request, "sis.html",
+                  {"details": details, "office": rooms, "year": year, "fac_by_year": fac_by_year, "semester": semester,
+                   "course": course})
 
 
 def course_sis(request):
@@ -120,11 +132,29 @@ def course_sis(request):
     details = cur.fetchone()
     search_room = request.GET['fac_room']
     fac_by_year = request.GET['fac_year']
-    fac_by_course = course_faculty[request.GET['fac_course'], details[0]]
+    course, semester = get_course(details[0])
     rooms = get_rooms(details[0])
     year = get_year(details[0])
+    faculty = get_fac_by_course(request.GET['fac_course'], request.GET['semesters'])
     return render(request, "sis.html",
-                  {"details": details, "office": rooms, "year": year, "fac_by_course": fac_by_course})
+                  {"details": details, "office": rooms, "year": year,
+                   "semester": semester, "course": course, "faculty" : faculty})
+
+def getCourseID(request):
+    conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
+    cur = conn.cursor()
+    statement = "select * from departments where dname='Software and Information System'"
+    cur.execute(statement)
+    details = cur.fetchone()
+    search_room = request.GET['fac_room']
+    fac_by_year = request.GET['fac_year']
+    course, semester = get_course(details[0])
+    rooms = get_rooms(details[0])
+    year = get_year(details[0])
+    faculty = get_fac_by_course(request.GET['fac_course'], request.GET['semesters'])
+    return render(request, "sis.html",
+                  {"details": details, "office": rooms, "year": year,
+                   "semester": semester, "course": course, "faculty": faculty})
 
 
 #####################
@@ -201,6 +231,34 @@ def course_faculty(course, dname):
     conn = MySQLdb.connect(user="root", password="root123", database="project_DBS", host='localhost')
     cur = conn.cursor()
     statement = ""
+    cur.execute(statement)
+    rs = cur.fetchall()
+    return rs
+
+
+def get_course(dname):
+    conn = MySQLdb.connect(user="root", password="root123", database="project_DBS", host='localhost')
+    cur = conn.cursor()
+    cur1 = conn.cursor()
+    if dname == 'Bioinformatics and Genomics':
+        statement = "select distinct course_code from courses where course_code like 'BINF%' order by course_code asc"
+    elif dname == 'Computer Science':
+        statement = "select distinct course_code from courses where course_code like 'ITCS%' order by course_code asc"
+    else:
+        statement = "select distinct course_code from courses where course_code like 'ITIS%' order by course_code asc"
+    statement1 = "select distinct semester from courses"
+    cur.execute(statement)
+    cur1.execute(statement1)
+    rs = cur.fetchall()
+    rs1 = cur1.fetchall()
+    return (rs, rs1)
+
+
+def get_fac_by_course(course, sem):
+    conn = MySQLdb.connect(user="root", password="root123", database="project_DBS", host='localhost')
+    cur = conn.cursor()
+    statement = "select t.fname from teaches t, courses c where t.CRN = c.CRN and c.course_code =\'" + course +\
+                "\' and c.semester = \'" + sem + "\'"
     cur.execute(statement)
     rs = cur.fetchall()
     return rs
