@@ -215,8 +215,8 @@
                     </select>
                     <button type="submit" class="btn btn-warning btn-sm">Submit</button>
                 </form>
-                {% if office != empty %}
-                    {% for all in office %}
+                {% if office_details != empty %}
+                    {% for all in office_details %}
                         <h4 class="text-success"><strong>{{ all.0 }}</strong></h4>
                     {% endfor %}
                 {% endif %}

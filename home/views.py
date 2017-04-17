@@ -221,7 +221,7 @@ def office_details(request):
     return render(request, "sis.html",
                   {"details": details, "office": rooms, "year": year,
                    "semester": semester, "courseID": courseID, "courseName": courseName, "fname": fname,
-                   "office": office})
+                   "office_details": office})
 
 
 #####################
@@ -388,7 +388,7 @@ def get_CID_Fac_Sem(fname, sem):
 def get_Office_Details(fname):
     conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
     cur = conn.cursor()
-    statement = "select office_room from faculty where fname=\'" + fname + "\'"
+    statement = "select office_room from faculties where fname=\'" + fname + "\'"
     cur.execute(statement)
     rs = cur.fetchall()
     return rs
