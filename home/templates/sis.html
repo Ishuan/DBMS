@@ -12,7 +12,7 @@
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="SIS" class="active">Software and Information System</a>
+            <a class="navbar-brand" href="sis" class="active">Software and Information System</a>
         </div>
         <ul class="nav navbar-nav navbar-right">
 
@@ -48,7 +48,7 @@
 
                 <ul>
                     <li><h5>Find the faculty by the office room:</h5></li>
-                    <form action="fac_sis" method="GET">
+                    <form action="facsis" method="GET">
                         <select name="OfficeRooms">
                             <option>-----</option>
                             {% for all in office %}
@@ -67,7 +67,7 @@
 
                 <ul>
                     <li><h5>Find the faculty by the year of joining:</h5></li>
-                    <form action="fyear_sis" method="GET">
+                    <form action="fyearsis" method="GET">
                         <select name="fac_year">
                             <option>-----</option>
                             {% for all in year %}
@@ -86,7 +86,7 @@
 
                 <ul>
                     <li><h5>Find the professor by the Courses:</h5></li>
-                    <form action="course_sis" method="GET">
+                    <form action="coursesis" method="GET">
                         <select name="fac_course">
                             <option>-----</option>
                             {% for all in courseID %}
@@ -126,7 +126,7 @@
         <div id="Courses" class="panel-collapse">
             <ul>
                 <li><h5>Find the Course Code for the subject: </h5></li>
-                <form action="getCourseID" method="GET">
+                <form action="getsisCourseID" method="GET">
                     <select class="col-sm-8" name="Cname">
                         <option>-----</option>
                         {% for all in courseName %}
@@ -144,7 +144,7 @@
                 {% endif %}
 
                 <li><h5>Find the timings and Classroom for the course:</h5></li>
-                <form action="getCourseClass" method="GET">
+                <form action="getsisCourseClass" method="GET">
                     <select class="col-sm-8" name="Cname">
                         <option>-----</option>
                         {% for all in courseName %}
@@ -168,7 +168,7 @@
                 {% endif %}
 
                 <li><h5>Find the course ID:</h5></li>
-                <form action="getCID" method="GET">
+                <form action="getsisCID" method="GET">
                     <select name="fname">
                         <option>-----</option>
                         {% for all in fname %}
@@ -207,7 +207,7 @@
         <div id="Offices" class="panel-collapse">
             <ul>
                 <li><h5>Find the Office Details of the Professor:</h5></li>
-                <form action="office_details" method="GET">
+                <form action="office_sis_details" method="GET">
                     <select name="fname">
                         <option>-----</option>
                         {% for all in fname %}
@@ -240,7 +240,7 @@
         <div id="Year" class="panel-collapse">
             <ul>
                 <li><h5>Find the Year of joining for the Professor:</h5></li>
-                <form action="year_details" method="GET">
+                <form action="year_sis_details" method="GET">
                     <select name="fname">
                         <option>-----</option>
                         {% for all in fname %}

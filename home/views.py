@@ -20,6 +20,7 @@ def home(request):
         if rs[1] == request.POST['password']:
             return render(request, "welcome.html", {})
 
+
 def logout(request):
     request.session.flush()
     return render(request, "login.html", {})
@@ -28,16 +29,17 @@ def logout(request):
 def cs(request):
     conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
     cur = conn.cursor()
-    statement = "select * from departments where dname='computer science'"
+    statement = "select * from departments where dname='Computer Science'"
     cur.execute(statement)
     details = cur.fetchone()
     rooms = get_rooms(details[0])
     year = get_year(details[0])
     courseID, semester = get_course(details[0])
+    courseName = get_course_name(details[0])
     fname = get_fname(details[0])
     return render(request, "cs.html",
                   {"details": details, "office": rooms, "year": year, "semester": semester, "courseID": courseID,
-                   "fname": fname})
+                   "courseName": courseName, "fname": fname})
 
 
 def sis(request):
@@ -65,17 +67,18 @@ def bio(request):
     rooms = get_rooms(details[0])
     year = get_year(details[0])
     courseID, semester = get_course(details[0])
+    courseName = get_course_name(details[0])
     fname = get_fname(details[0])
     return render(request, "bio.html",
                   {"details": details, "office": rooms, "year": year, "semester": semester, "courseID": courseID,
-                   "fname": fname})
+                   "courseName": courseName, "fname": fname})
 
 
 #####################
 ## Computer Science
 #####################
 
-def fac_cs(request):
+def faccs(request):
     conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
     cur = conn.cursor()
     statement = "select * from departments where dname='Computer Science'"
@@ -84,27 +87,143 @@ def fac_cs(request):
     search_room = find_fac(request.GET['OfficeRooms'], details[0])
     rooms = get_rooms(details[0])
     year = get_year(details[0])
-    return render(request, "cs.html", {"details": details, "office": rooms, "year": year, "fac_room": search_room})
+    courseID, semester = get_course(details[0])
+    courseName = get_course_name(details[0])
+    fname = get_fname(details[0])
+    return render(request, "cs.html",
+                  {"details": details, "office": rooms, "year": year, "fac_room": search_room, "semester": semester,
+                   "courseID": courseID, "courseName": courseName, "fname": fname})
 
 
-def fyear_cs(request):
+def fyearcs(request):
     conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
     cur = conn.cursor()
     statement = "select * from departments where dname='Computer Science'"
     cur.execute(statement)
     details = cur.fetchone()
-    search_room = request.GET['fac_room']
     fac_by_year = find_fac_year(request.GET['fac_year'], details[0])
     rooms = get_rooms(details[0])
     year = get_year(details[0])
-    return render(request, "cs.html", {"details": details, "office": rooms, "year": year, "fac_by_year": fac_by_year})
+    courseID, semester = get_course(details[0])
+    courseName = get_course_name(details[0])
+    fname = get_fname(details[0])
+    return render(request, "cs.html",
+                  {"details": details, "office": rooms, "year": year, "fac_by_year": fac_by_year, "semester": semester,
+                   "courseID": courseID, "courseName": courseName, "fname": fname})
+
+
+def coursecs(request):
+    conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
+    cur = conn.cursor()
+    statement = "select * from departments where dname='Computer Science'"
+    cur.execute(statement)
+    details = cur.fetchone()
+    courseID, semester = get_course(details[0])
+    rooms = get_rooms(details[0])
+    year = get_year(details[0])
+    faculty = get_fac_by_course(request.GET['fac_course'], request.GET['semesters'])
+    courseName = get_course_name(details[0])
+    fname = get_fname(details[0])
+    return render(request, "cs.html",
+                  {"details": details, "office": rooms, "year": year,
+                   "semester": semester, "courseID": courseID, "faculty": faculty, "courseName": courseName,
+                   "fname": fname})
+
+
+def getcsCourseID(request):
+    conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
+    cur = conn.cursor()
+    statement = "select * from departments where dname='Computer Science'"
+    cur.execute(statement)
+    details = cur.fetchone()
+    courseID, semester = get_course(details[0])
+    rooms = get_rooms(details[0])
+    year = get_year(details[0])
+    course_code = get_course_code(request.GET['Cname'], details[0])
+    courseName = get_course_name(details[0])
+    fname = get_fname(details[0])
+    return render(request, "cs.html",
+                  {"details": details, "office": rooms, "year": year,
+                   "semester": semester, "courseID": courseID, "courseName": courseName, "course_code": course_code,
+                   "fname": fname})
+
+
+def getcsCourseClass(request):
+    conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
+    cur = conn.cursor()
+    statement = "select * from departments where dname='Computer Science'"
+    cur.execute(statement)
+    details = cur.fetchone()
+    courseID, semester = get_course(details[0])
+    rooms = get_rooms(details[0])
+    year = get_year(details[0])
+    class_room, class_time = get_course_class(request.GET['Cname'], details[0])
+    courseName = get_course_name(details[0])
+    fname = get_fname(details[0])
+    return render(request, "cs.html",
+                  {"details": details, "office": rooms, "year": year,
+                   "semester": semester, "courseID": courseID, "courseName": courseName, "class_room": class_room,
+                   "class_time": class_time, "fname": fname})
+
+
+def getcsCID(request):
+    conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
+    cur = conn.cursor()
+    statement = "select * from departments where dname='Computer Science'"
+    cur.execute(statement)
+    details = cur.fetchone()
+    courseID, semester = get_course(details[0])
+    rooms = get_rooms(details[0])
+    year = get_year(details[0])
+    courseName = get_course_name(details[0])
+    fname = get_fname(details[0])
+    cid = get_CID_Fac_Sem(request.GET['fname'], request.GET['semester'])
+    return render(request, "cs.html",
+                  {"details": details, "office": rooms, "year": year,
+                   "semester": semester, "courseID": courseID, "courseName": courseName, "fname": fname, "cid": cid})
+
+
+def officecsdetails(request):
+    conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
+    cur = conn.cursor()
+    statement = "select * from departments where dname='Computer Science'"
+    cur.execute(statement)
+    details = cur.fetchone()
+    courseID, semester = get_course(details[0])
+    rooms = get_rooms(details[0])
+    year = get_year(details[0])
+    courseName = get_course_name(details[0])
+    fname = get_fname(details[0])
+    office = get_Office_Details(request.GET['fname'])
+    return render(request, "cs.html",
+                  {"details": details, "office": rooms, "year": year,
+                   "semester": semester, "courseID": courseID, "courseName": courseName, "fname": fname,
+                   "office_details": office})
+
+
+def year_cs_details(request):
+    conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
+    cur = conn.cursor()
+    statement = "select * from departments where dname='Computer Science'"
+    cur.execute(statement)
+    details = cur.fetchone()
+    courseID, semester = get_course(details[0])
+    rooms = get_rooms(details[0])
+    year = get_year(details[0])
+    courseName = get_course_name(details[0])
+    fname = get_fname(details[0])
+    working_since = get_Years_Details(request.GET['fname'])
+    return render(request, "cs.html",
+                  {"details": details, "office": rooms, "year": year,
+                   "semester": semester, "courseID": courseID, "courseName": courseName, "fname": fname,
+                   "working_since": working_since})
 
 
 #####################
 ## SIS
 #####################
 
-def fac_sis(request):
+def facsis(request):
     conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
     cur = conn.cursor()
     statement = "select * from departments where dname='Software and Information System'"
@@ -121,7 +240,7 @@ def fac_sis(request):
                    "courseID": courseID, "courseName": courseName, "fname": fname})
 
 
-def fyear_sis(request):
+def fyearsis(request):
     conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
     cur = conn.cursor()
     statement = "select * from departments where dname='Software and Information System'"
@@ -138,7 +257,7 @@ def fyear_sis(request):
                    "courseID": courseID, "courseName": courseName, "fname": fname})
 
 
-def course_sis(request):
+def coursesis(request):
     conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
     cur = conn.cursor()
     statement = "select * from departments where dname='Software and Information System'"
@@ -156,7 +275,7 @@ def course_sis(request):
                    "fname": fname})
 
 
-def getCourseID(request):
+def getsisCourseID(request):
     conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
     cur = conn.cursor()
     statement = "select * from departments where dname='Software and Information System'"
@@ -174,7 +293,7 @@ def getCourseID(request):
                    "fname": fname})
 
 
-def getCourseClass(request):
+def getsisCourseClass(request):
     conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
     cur = conn.cursor()
     statement = "select * from departments where dname='Software and Information System'"
@@ -184,7 +303,6 @@ def getCourseClass(request):
     rooms = get_rooms(details[0])
     year = get_year(details[0])
     class_room, class_time = get_course_class(request.GET['Cname'], details[0])
-    print(class_time)
     courseName = get_course_name(details[0])
     fname = get_fname(details[0])
     return render(request, "sis.html",
@@ -193,7 +311,7 @@ def getCourseClass(request):
                    "class_time": class_time, "fname": fname})
 
 
-def getCID(request):
+def getsisCID(request):
     conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
     cur = conn.cursor()
     statement = "select * from departments where dname='Software and Information System'"
@@ -210,7 +328,7 @@ def getCID(request):
                    "semester": semester, "courseID": courseID, "courseName": courseName, "fname": fname, "cid": cid})
 
 
-def office_details(request):
+def office_sis_details(request):
     conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
     cur = conn.cursor()
     statement = "select * from departments where dname='Software and Information System'"
@@ -228,7 +346,7 @@ def office_details(request):
                    "office_details": office})
 
 
-def year_details(request):
+def year_sis_details(request):
     conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
     cur = conn.cursor()
     statement = "select * from departments where dname='Software and Information System'"
@@ -250,7 +368,7 @@ def year_details(request):
 ## BIOINFORMATICS
 #####################
 
-def fac_bio(request):
+def facbio(request):
     conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
     cur = conn.cursor()
     statement = "select * from departments where dname='Bioinformatics and Genomics'"
@@ -259,20 +377,136 @@ def fac_bio(request):
     search_room = find_fac(request.GET['OfficeRooms'], details[0])
     rooms = get_rooms(details[0])
     year = get_year(details[0])
-    return render(request, "bio.html", {"details": details, "office": rooms, "year": year, "fac_room": search_room})
+    courseID, semester = get_course(details[0])
+    courseName = get_course_name(details[0])
+    fname = get_fname(details[0])
+    return render(request, "bio.html",
+                  {"details": details, "office": rooms, "year": year, "fac_room": search_room, "semester": semester,
+                   "courseID": courseID, "courseName": courseName, "fname": fname})
 
 
-def fyear_bio(request):
+def fyearbio(request):
     conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
     cur = conn.cursor()
     statement = "select * from departments where dname='Bioinformatics and Genomics'"
     cur.execute(statement)
     details = cur.fetchone()
-    search_room = request.GET['fac_room']
     fac_by_year = find_fac_year(request.GET['fac_year'], details[0])
     rooms = get_rooms(details[0])
     year = get_year(details[0])
-    return render(request, "bio.html", {"details": details, "office": rooms, "year": year, "fac_by_year": fac_by_year})
+    courseID, semester = get_course(details[0])
+    courseName = get_course_name(details[0])
+    fname = get_fname(details[0])
+    return render(request, "bio.html",
+                  {"details": details, "office": rooms, "year": year, "fac_by_year": fac_by_year, "semester": semester,
+                   "courseID": courseID, "courseName": courseName, "fname": fname})
+
+
+def coursebio(request):
+    conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
+    cur = conn.cursor()
+    statement = "select * from departments where dname='Bioinformatics and Genomics'"
+    cur.execute(statement)
+    details = cur.fetchone()
+    courseID, semester = get_course(details[0])
+    rooms = get_rooms(details[0])
+    year = get_year(details[0])
+    faculty = get_fac_by_course(request.GET['fac_course'], request.GET['semesters'])
+    courseName = get_course_name(details[0])
+    fname = get_fname(details[0])
+    return render(request, "bio.html",
+                  {"details": details, "office": rooms, "year": year,
+                   "semester": semester, "courseID": courseID, "faculty": faculty, "courseName": courseName,
+                   "fname": fname})
+
+
+def getbioCourseID(request):
+    conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
+    cur = conn.cursor()
+    statement = "select * from departments where dname='Bioinformatics and Genomics'"
+    cur.execute(statement)
+    details = cur.fetchone()
+    courseID, semester = get_course(details[0])
+    rooms = get_rooms(details[0])
+    year = get_year(details[0])
+    course_code = get_course_code(request.GET['Cname'], details[0])
+    courseName = get_course_name(details[0])
+    fname = get_fname(details[0])
+    return render(request, "bio.html",
+                  {"details": details, "office": rooms, "year": year,
+                   "semester": semester, "courseID": courseID, "courseName": courseName, "course_code": course_code,
+                   "fname": fname})
+
+
+def getbioCourseClass(request):
+    conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
+    cur = conn.cursor()
+    statement = "select * from departments where dname='Bioinformatics and Genomics'"
+    cur.execute(statement)
+    details = cur.fetchone()
+    courseID, semester = get_course(details[0])
+    rooms = get_rooms(details[0])
+    year = get_year(details[0])
+    class_room, class_time = get_course_class(request.GET['Cname'], details[0])
+    courseName = get_course_name(details[0])
+    fname = get_fname(details[0])
+    return render(request, "bio.html",
+                  {"details": details, "office": rooms, "year": year,
+                   "semester": semester, "courseID": courseID, "courseName": courseName, "class_room": class_room,
+                   "class_time": class_time, "fname": fname})
+
+
+def getbioCID(request):
+    conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
+    cur = conn.cursor()
+    statement = "select * from departments where dname='Bioinformatics and Genomics'"
+    cur.execute(statement)
+    details = cur.fetchone()
+    courseID, semester = get_course(details[0])
+    rooms = get_rooms(details[0])
+    year = get_year(details[0])
+    courseName = get_course_name(details[0])
+    fname = get_fname(details[0])
+    cid = get_CID_Fac_Sem(request.GET['fname'], request.GET['semester'])
+    return render(request, "bio.html",
+                  {"details": details, "office": rooms, "year": year,
+                   "semester": semester, "courseID": courseID, "courseName": courseName, "fname": fname, "cid": cid})
+
+
+def office_bio_details(request):
+    conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
+    cur = conn.cursor()
+    statement = "select * from departments where dname='Bioinformatics and Genomics'"
+    cur.execute(statement)
+    details = cur.fetchone()
+    courseID, semester = get_course(details[0])
+    rooms = get_rooms(details[0])
+    year = get_year(details[0])
+    courseName = get_course_name(details[0])
+    fname = get_fname(details[0])
+    office = get_Office_Details(request.GET['fname'])
+    return render(request, "bio.html",
+                  {"details": details, "office": rooms, "year": year,
+                   "semester": semester, "courseID": courseID, "courseName": courseName, "fname": fname,
+                   "office_details": office})
+
+
+def year_bio_details(request):
+    conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
+    cur = conn.cursor()
+    statement = "select * from departments where dname='Bioinformatics and Genomics'"
+    cur.execute(statement)
+    details = cur.fetchone()
+    courseID, semester = get_course(details[0])
+    rooms = get_rooms(details[0])
+    year = get_year(details[0])
+    courseName = get_course_name(details[0])
+    fname = get_fname(details[0])
+    working_since = get_Years_Details(request.GET['fname'])
+    return render(request, "bio.html",
+                  {"details": details, "office": rooms, "year": year,
+                   "semester": semester, "courseID": courseID, "courseName": courseName, "fname": fname,
+                   "working_since": working_since})
 
 
 ######################################

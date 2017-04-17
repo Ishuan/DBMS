@@ -12,35 +12,34 @@
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="login.html">Computer Science</a>
+            <a class="navbar-brand" href="cs" class="active">Computer Science</a>
         </div>
         <ul class="nav navbar-nav navbar-right">
-            <input type="hidden" value="username">
-            <li><a href="#"><span class="glyphicon glyphicon-home">&nbspHome</span></a></li>
+
+            <li><a href="home.html"><span class="glyphicon glyphicon-home">&nbsp;Home</span></a></li>
+            <li><a href="logout"><span class="glyphicon glyphicon-log-out">&nbsp;Logout</span></a></li>
         </ul>
     </div>
 </nav>
 <div>
-    <strong>Below are the details of the departement : </strong> {{ details.0 }}
+    &nbsp;&nbsp;&nbsp;&nbsp;<strong>Below are the details of the departement : </strong> {{ details.0 }}
     <br>
-    <strong>Number of faculties :</strong> {{ details.1 }}
+    &nbsp;&nbsp;&nbsp;&nbsp;<strong>Number of faculties :</strong> {{ details.1 }}
     <br>
-    <Strong>Main Office: </Strong>{{ details.2 }}
-    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<Strong>Main Office: </Strong>{{ details.2 }}
     <br>
     <br>
 </div>
 
-<div class="col-sm-2"></div>
 
-<div class="col-sm-8">
+<div class="col-sm-3">
 
-    <div class="panel-group" id="accordion">
+    <div class="panel-group" id="accordion_cs">
 
         <div class="panel panel-danger">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#Faculty">
+                    <a data-toggle="collapse" data-parent="#accordion_cs" href="#Faculty">
                         Faculties
                     </a>
                 </h4>
@@ -49,8 +48,9 @@
 
                 <ul>
                     <li><h5>Find the faculty by the office room:</h5></li>
-                    <form action="fac_sis" method="GET">
+                    <form action="faccs" method="GET">
                         <select name="OfficeRooms">
+                            <option>-----</option>
                             {% for all in office %}
                                 <option value="{{ all.0 }}">{{ all.0 }}</option>
                             {% endfor %}
@@ -67,9 +67,9 @@
 
                 <ul>
                     <li><h5>Find the faculty by the year of joining:</h5></li>
-                    <form action="fyear_sis" method="GET">
-                        <input type="hidden" name="fac_room" value="fac_room.0"/>
+                    <form action="fyearcs" method="GET">
                         <select name="fac_year">
+                            <option>-----</option>
                             {% for all in year %}
                                 <option value="{{ all.0 }}">{{ all.0 }}</option>
                             {% endfor %}
@@ -86,15 +86,15 @@
 
                 <ul>
                     <li><h5>Find the professor by the Courses:</h5></li>
-                    <form action="course_sis" method="GET">
-                        <input type="hidden" name="fac_room" value="fac_room.0"/>
-                        <input type="hidden" name="fac_year" value="fac_year.0"/>
+                    <form action="coursecs" method="GET">
                         <select name="fac_course">
-                            {% for all in course %}
+                            <option>-----</option>
+                            {% for all in courseID %}
                                 <option value="{{ all.0 }}">{{ all.0 }}</option>
                             {% endfor %}
                         </select>
                         <select name="semesters">
+                            <option>-----</option>
                             {% for all in semester %}
                                 <option value="{{ all.0 }}">{{ all.0 }}</option>
                             {% endfor %}
@@ -102,28 +102,160 @@
                         <button class="btn btn-danger btn-sm" type="submit">Submit
                         </button>
                     </form>
-                    ########
+                    {% if faculty != empty %}
+                        {% for all in faculty %}
+                            <h4 class="text-success"><strong>{{ all.0 }}</strong></h4>
+                        {% endfor %}
+                    {% endif %}
                 </ul>
 
             </div>
         </div>
-
-        <div class="panel panel-success">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#Courses">
-                        Courses
-                    </a>
-                </h4>
-            </div>
-            <div id="Courses" class="panel-collapse">
-                <ul>
-                    <li><h5>Find the professor </h5></li>
-                </ul>
-            </div>
-        </div>
-
     </div>
 </div>
 
-<div class="col-sm-2"></div>
+<div class="col-sm-3">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion_cs" href="#Courses">
+                    Courses
+                </a>
+            </h4>
+        </div>
+        <div id="Courses" class="panel-collapse">
+            <ul>
+                <li><h5>Find the Course Code for the subject: </h5></li>
+                <form action="getcsCourseID" method="GET">
+                    <select class="col-sm-8" name="Cname">
+                        <option>-----</option>
+                        {% for all in courseName %}
+                            <option value="{{ all.0 }}">{{ all.0 }}</option>
+                        {% endfor %}
+                    </select>&nbsp;
+                    <button type="submit" class="btn btn-success btn-sm">
+                        Submit
+                    </button>
+                </form>
+                {% if course_code != empty %}
+                    {% for all in course_code %}
+                        <h4 class="text-success">{{ all.0 }}</h4>
+                    {% endfor %}
+                {% endif %}
+
+                <li><h5>Find the timings and Classroom for the course:</h5></li>
+                <form action="getcsCourseClass" method="GET">
+                    <select class="col-sm-8" name="Cname">
+                        <option>-----</option>
+                        {% for all in courseName %}
+                            <option value="{{ all.0 }}">{{ all.0 }}</option>
+                        {% endfor %}
+                    </select>&nbsp;
+                    <button type="submit" class="btn btn-success btn-sm">
+                        Submit
+                    </button>
+                </form>
+                {% if class_room != empty %}
+                    {% for all in class_room %}
+                        <h4 class="text-success">{{ all.0 }}</h4>
+                    {% endfor %}
+                {% endif %}
+
+                {% if class_time != empty %}
+                    {% for all in class_time %}
+                        <h4 class="text-success">{{ all.0 }}</h4>
+                    {% endfor %}
+                {% endif %}
+
+                <li><h5>Find the course ID:</h5></li>
+                <form action="getcsCID" method="GET">
+                    <select name="fname">
+                        <option>-----</option>
+                        {% for all in fname %}
+                            <option value="{{ all.0 }}">{{ all.0 }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="semester">
+                        <option>-----</option>
+                        {% for all in semester %}
+                            <option value="{{ all.0 }}">{{ all.0 }}</option>
+                        {% endfor %}
+                    </select>
+                    &nbsp;
+                    <button type="submit" class="btn btn-success btn-sm">Submit</button>
+                </form>
+                {% if cid != empty %}
+                    {% for all in cid %}
+                        <h4 class="text-success"><strong>{{ all.0 }}</strong></h4>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-3">
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion_cs" href="#Offices">
+                    Office Details:
+                </a>
+            </h4>
+        </div>
+
+        <div id="Offices" class="panel-collapse">
+            <ul>
+                <li><h5>Find the Office Details of the Professor:</h5></li>
+                <form action="officecsdetails" method="GET">
+                    <select name="fname">
+                        <option>-----</option>
+                        {% for all in fname %}
+                            <option value="{{ all.0 }}">{{ all.0 }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-warning btn-sm">Submit</button>
+                </form>
+                {% if office_details != empty %}
+                    {% for all in office_details %}
+                        <h4 class="text-success"><strong>{{ all.0 }}</strong></h4>
+                    {% endfor %}
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-3">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion_cs" href="#Year">
+                    Year of Joining:
+                </a>
+            </h4>
+        </div>
+
+        <div id="Year" class="panel-collapse">
+            <ul>
+                <li><h5>Find the Year of joining for the Professor:</h5></li>
+                <form action="year_cs_details" method="GET">
+                    <select name="fname">
+                        <option>-----</option>
+                        {% for all in fname %}
+                            <option value="{{ all.0 }}">{{ all.0 }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-info btn-sm">Submit</button>
+                </form>
+                {% if working_since != empty %}
+                    {% for all in working_since %}
+                        <h4 class="text-success"><strong>{{ all.0 }}</strong></h4>
+                    {% endfor %}
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
+</div>
