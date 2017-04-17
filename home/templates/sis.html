@@ -21,11 +21,11 @@
     </div>
 </nav>
 <div>
-    &nbsp;&nbsp;&nbsp;<strong>Below are the details of the departement : </strong> {{ details.0 }}
+    &nbsp;&nbsp;&nbsp;&nbsp;<strong>Below are the details of the departement : </strong> {{ details.0 }}
     <br>
-    &nbsp;&nbsp;&nbsp;<strong>Number of faculties :</strong> {{ details.1 }}
+    &nbsp;&nbsp;&nbsp;&nbsp;<strong>Number of faculties :</strong> {{ details.1 }}
     <br>
-    &nbsp;&nbsp;&nbsp;<Strong>Main Office: </Strong>{{ details.2 }}
+    &nbsp;&nbsp;&nbsp;&nbsp;<Strong>Main Office: </Strong>{{ details.2 }}
     <br>
     <br>
 </div>
@@ -67,7 +67,6 @@
                 <ul>
                     <li><h5>Find the faculty by the year of joining:</h5></li>
                     <form action="fyear_sis" method="GET">
-                        <input type="hidden" name="fac_room" value="fac_room.0"/>
                         <select name="fac_year">
                             <option>-----</option>
                             {% for all in year %}
@@ -87,11 +86,9 @@
                 <ul>
                     <li><h5>Find the professor by the Courses:</h5></li>
                     <form action="course_sis" method="GET">
-                        <input type="hidden" name="fac_room" value="fac_room.0"/>
-                        <input type="hidden" name="fac_year" value="fac_year.0"/>
                         <select name="fac_course">
                             <option>-----</option>
-                            {% for all in course %}
+                            {% for all in courseID %}
                                 <option value="{{ all.0 }}">{{ all.0 }}</option>
                             {% endfor %}
                         </select>
@@ -129,24 +126,25 @@
             <ul>
                 <li><h5>Find the Course Code for the subject: </h5></li>
                 <form action="getCourseID" method="GET">
-                    <input type="hidden" name="fac_room" value="fac_room.0"/>
-                    <input type="hidden" name="fac_year" value="fac_year.0"/>
-                    <input type="hidden" name="course" value=""/>
-                    <input type="hidden" name="semesters" value=""/>
-                    <select name="CourseName">
+                    <select class="col-sm-8" name="Cname">
                         <option>-----</option>
-                        {% for all in faculty %}
+                        {% for all in courseName %}
                             <option value="{{ all.0 }}">{{ all.0 }}</option>
                         {% endfor %}
-                    </select>
-                    <button type="button" class="btn btn-danger btn-sm">
+                    </select>&nbsp;
+                    <button type="submit" class="btn btn-danger btn-sm">
                         Submit
                     </button>
                 </form>
+                {% if course_code != empty %}
+                    {% for all in course_code %}
+                        <h4 class="text-success">{{ all.0 }}</h4>
+                    {% endfor %}
+                {% endif %}
             </ul>
         </div>
     </div>
 </div>
-
+</div>
 </body>
 <div class="col-sm-2"></div>

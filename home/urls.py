@@ -14,5 +14,5 @@ urlpatterns = [
     url(r'^fac_sis', views.fac_sis, name='fac'),
     url(r'^fyear_sis', views.fyear_sis, name='fyear'),
     url(r'^course_sis', views.course_sis, name='course_sis'),
-    url(r'getCourseID', views.getCourseID, name='getCourseID'),
+    url(r'^getCourseID', views.getCourseID, name='getCourseID'),
 ]
