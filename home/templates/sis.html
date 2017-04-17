@@ -132,7 +132,7 @@
                             <option value="{{ all.0 }}">{{ all.0 }}</option>
                         {% endfor %}
                     </select>&nbsp;
-                    <button type="submit" class="btn btn-danger btn-sm">
+                    <button type="submit" class="btn btn-success btn-sm">
                         Submit
                     </button>
                 </form>
@@ -141,10 +141,87 @@
                         <h4 class="text-success">{{ all.0 }}</h4>
                     {% endfor %}
                 {% endif %}
+
+                <li><h5>Find the timings and Classroom for the course:</h5></li>
+                <form action="getCourseClass" method="GET">
+                    <select class="col-sm-8" name="Cname">
+                        <option>-----</option>
+                        {% for all in courseName %}
+                            <option value="{{ all.0 }}">{{ all.0 }}</option>
+                        {% endfor %}
+                    </select>&nbsp;
+                    <button type="submit" class="btn btn-success btn-sm">
+                        Submit
+                    </button>
+                </form>
+                {% if class_room != empty %}
+                    {% for all in class_room %}
+                        <h4 class="text-success">{{ all.0 }}</h4>
+                    {% endfor %}
+                {% endif %}
+
+                {% if class_time != empty %}
+                    {% for all in class_time %}
+                        <h4 class="text-success">{{ all.0 }}</h4>
+                    {% endfor %}
+                {% endif %}
+
+                <li><h5>Find the course ID:</h5></li>
+                <form action="getCID" method="GET">
+                    <select name="fname">
+                        <option>-----</option>
+                        {% for all in fname %}
+                            <option value="{{ all.0 }}">{{ all.0 }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="semester">
+                        <option>-----</option>
+                        {% for all in semester %}
+                            <option value="{{ all.0 }}">{{ all.0 }}</option>
+                        {% endfor %}
+                    </select>
+                    &nbsp;
+                    <button type="submit" class="btn btn-success btn-sm">Submit</button>
+                </form>
+                {% if cid != empty %}
+                    {% for all in cid %}
+                        <h4 class="text-success"><strong>{{ all.0 }}</strong></h4>
+                    {% endfor %}
+                {% endif %}
             </ul>
         </div>
     </div>
 </div>
+
+<div class="col-sm-3">
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#Offices">
+                    Office Details:
+                </a>
+            </h4>
+        </div>
+
+        <div id="Courses" class="panel-collapse">
+            <ul>
+                <li><h5>Find the Office Details of the Professor:</h5></li>
+                <form action="office_details" method="GET">
+                    <select name="fname">
+                        <option>-----</option>
+                        {% for all in fname %}
+                            <option value="{{ all.0 }}">{{ all.0 }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-warning btn-sm">Submit</button>
+                </form>
+                {% if office != empty %}
+                    {% for all in office %}
+                        <h4 class="text-success"><strong>{{ all.0 }}</strong></h4>
+                    {% endfor %}
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
 </div>
-</body>
-<div class="col-sm-2"></div>

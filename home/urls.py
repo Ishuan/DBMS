@@ -15,4 +15,7 @@ urlpatterns = [
     url(r'^fyear_sis', views.fyear_sis, name='fyear'),
     url(r'^course_sis', views.course_sis, name='course_sis'),
     url(r'^getCourseID', views.getCourseID, name='getCourseID'),
+    url(r'^getCourseClass', views.getCourseClass, name='getCourseClass'),
+    url(r'^getCID', views.getCID, name='getCID'),
+    url(r'^office_details', views.office_details, name='office_details'),
 ]
