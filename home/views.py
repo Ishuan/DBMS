@@ -20,6 +20,10 @@ def home(request):
         if rs[1] == request.POST['password']:
             return render(request, "welcome.html", {})
 
+def logout(request):
+    request.session.flush()
+    return render(request, "login.html", {})
+
 
 def cs(request):
     conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
