@@ -18,4 +18,5 @@ urlpatterns = [
     url(r'^getCourseClass', views.getCourseClass, name='getCourseClass'),
     url(r'^getCID', views.getCID, name='getCID'),
     url(r'^office_details', views.office_details, name='office_details'),
+    url(r'^year_details', views.year_details, name='year_details'),
 ]

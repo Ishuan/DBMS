@@ -203,7 +203,7 @@
             </h4>
         </div>
 
-        <div id="Courses" class="panel-collapse">
+        <div id="Offices" class="panel-collapse">
             <ul>
                 <li><h5>Find the Office Details of the Professor:</h5></li>
                 <form action="office_details" method="GET">
@@ -217,6 +217,39 @@
                 </form>
                 {% if office_details != empty %}
                     {% for all in office_details %}
+                        <h4 class="text-success"><strong>{{ all.0 }}</strong></h4>
+                    {% endfor %}
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-3">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#Year">
+                    Year of Joining:
+                </a>
+            </h4>
+        </div>
+
+        <div id="Year" class="panel-collapse">
+            <ul>
+                <li><h5>Find the Year of joining for the Professor:</h5></li>
+                <form action="year_details" method="GET">
+                    <select name="fname">
+                        <option>-----</option>
+                        {% for all in fname %}
+                            <option value="{{ all.0 }}">{{ all.0 }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-info btn-sm">Submit</button>
+                </form>
+                {% if working_since != empty %}
+                    {% for all in working_since %}
                         <h4 class="text-success"><strong>{{ all.0 }}</strong></h4>
                     {% endfor %}
                 {% endif %}

@@ -224,6 +224,24 @@ def office_details(request):
                    "office_details": office})
 
 
+def year_details(request):
+    conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
+    cur = conn.cursor()
+    statement = "select * from departments where dname='Software and Information System'"
+    cur.execute(statement)
+    details = cur.fetchone()
+    courseID, semester = get_course(details[0])
+    rooms = get_rooms(details[0])
+    year = get_year(details[0])
+    courseName = get_course_name(details[0])
+    fname = get_fname(details[0])
+    working_since = get_Years_Details(request.GET['fname'])
+    return render(request, "sis.html",
+                  {"details": details, "office": rooms, "year": year,
+                   "semester": semester, "courseID": courseID, "courseName": courseName, "fname": fname,
+                   "working_since": working_since})
+
+
 #####################
 ## BIOINFORMATICS
 #####################
@@ -389,6 +407,15 @@ def get_Office_Details(fname):
     conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
     cur = conn.cursor()
     statement = "select office_room from faculties where fname=\'" + fname + "\'"
+    cur.execute(statement)
+    rs = cur.fetchall()
+    return rs
+
+
+def get_Years_Details(fname):
+    conn = MySQLdb.connect(user='root', password='root123', database='project_DBS', host='localhost')
+    cur = conn.cursor()
+    statement = "select since from work_in where fname=\'" + fname + "\'"
     cur.execute(statement)
     rs = cur.fetchall()
     return rs
