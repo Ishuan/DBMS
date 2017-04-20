@@ -32,4 +32,5 @@ urlpatterns = [
     url(r'^year_sis_details', views.year_sis_details, name='year_sis_details'),
     url(r'^year_bio_details', views.year_bio_details, name='year_bio_details'),
     url(r'^year_cs_details', views.year_cs_details, name='year_cs_details'),
+    url(r'^welcome', views.welcome, name='welcome'),
 ]
